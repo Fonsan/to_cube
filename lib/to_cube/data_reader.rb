@@ -8,7 +8,7 @@ class ToCube::DataReader
   def parse!
     input = @lines.first.zip(@lines.to_a.transpose)
     time_strings = nil
-    input.delete_if {|name, series| name == 'time' && time_strings = series }
+    time_strings = input.shift.last
     times = time_strings.map {|s| Integer(s) }
     @start_time, @end_time = times.minmax
     time_diffs = times.each_cons(2).each_with_object(Hash.new(0)) do |(t1, t2), acc|
