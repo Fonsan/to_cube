@@ -1,0 +1,14 @@
+#!/usr/bin/env ruby
+$: << File.expand_path('../../lib', __FILE__)
+require 'to_cube'
+require 'shell'
+gem 'bcat'
+shell = Shell.new
+reader = ToCube::DataReader.new(STDIN)
+reader.parse!
+chart = ToCube::Chart.new(reader)
+if ARGV.first == '--debug'
+  p reader.config
+else
+  shell.echo(chart.render) | shell.system('bcat')
+end
